@@ -15,13 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Auth::routes(['verify' => true]);
 
 Route::middleware(['auth','verified'])->group(function (){
 
     Route::get('/home', 'HomeController@index')->name('home');
 
+    Route::resource('boards', 'BoardController');
+
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes();
+
 
