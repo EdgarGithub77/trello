@@ -26,7 +26,7 @@ class BoardRequests extends FormRequest
     {
         return [
             'name' => 'required|unique:boards|string|min:3|max:255',
-//            'visibility' => 'boolean',
+            'visibility' => 'required|boolean',
         ];
     }
 }

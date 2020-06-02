@@ -14,6 +14,9 @@
                             @if($errors->has('name'))
                                 <div class="error text-danger">{{ $errors->first('name') }}</div>
                             @endif
+                            @if($errors->has('visibility'))
+                                <div class="error text-danger">{{ $errors->first('visibility') }}</div>
+                            @endif
                             <div class="text-center">
                                 <button type="button" class="btn btn-secondary" data-toggle="modal"
                                         data-target="#exampleModal" data-whatever="@mdo">+ {{ __('Create') }}</button>
