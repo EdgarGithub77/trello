@@ -22,6 +22,7 @@ Route::middleware(['auth','verified'])->group(function (){
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::resource('boards', 'BoardController');
+    Route::post('boards/user-invite', 'BoardController@userInvite')->name('userInvite');
 
 });
 

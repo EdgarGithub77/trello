@@ -22,6 +22,8 @@
                                         data-target="#exampleModal" data-whatever="@mdo">+ {{ __('Create') }}</button>
                             </div>
                         </div>
+
+
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -72,7 +74,7 @@
                                 <div class="col-sm-4">
                                     <div class="board-box">
                                         <div class="clearfix">
-                                            <h5 class="card-title"><a href="#">{{ $board->name }}</a></h5>
+                                            <h5 class="card-title"><a href="{{ url('boards', $board->id) }}">{{ $board->name }}</a></h5>
                                             <form action="{{ route('boards.destroy', $board->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
