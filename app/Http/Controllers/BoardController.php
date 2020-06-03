@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\BoardUser;
 use App\Http\Requests\BoardRequests;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BoardController extends Controller
 {
@@ -20,7 +22,7 @@ class BoardController extends Controller
         $getBoards = User::with('boards')->where('users.id', Auth::id())->first();
 
         return view('boards.index', [
-            'boards' => $getBoards->boards
+            'boards' => $getBoards->boards,
         ]);
     }
 
@@ -48,6 +50,24 @@ class BoardController extends Controller
         return redirect()->route('boards.index')->with(['message' => __('Success Create')]);
     }
 
+
+    public function userInvite(Request $request)
+    {
+        $user = User::userIsActive()->findOrFail($request->user);
+
+        $boardUser = BoardUser::where(['board_id' => Session::get('board_id'), 'user_id' => $user->id])->first();
+
+        if (!$boardUser) {
+            $board = Board::where('id', Session::get('board_id'))->first();
+            $board->users()->attach($user->id);
+
+            return redirect()->route('boards.index')->with(['message' => __('User Invited')]);
+        }
+
+        return redirect()->route('boards.index')->with(['message' => __('User Already Invited')]);
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -56,7 +76,17 @@ class BoardController extends Controller
      */
     public function show($id)
     {
-        //
+        $showBoard = Board::findOrFail($id);
+
+        $getUsers = User::userIsActive()->get();
+
+        Session::put('board_id', $id);
+
+        return view('boards.show', [
+            'board' => $showBoard,
+            'users' => $getUsers,
+
+        ]);
     }
 
     /**

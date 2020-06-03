@@ -9,6 +9,10 @@ class Board extends Model
 
     protected $fillable = ['name', 'visibility'];
 
+
+
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

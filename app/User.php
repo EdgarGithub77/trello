@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -36,6 +37,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUserIsActive($query)
+    {
+        return $query->where('id', '!=', Auth::id())->where('email_verified_at', '!=', NULL);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
